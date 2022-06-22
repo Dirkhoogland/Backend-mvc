@@ -1,0 +1,40 @@
+﻿
+@{
+    ViewData["Title"] = "Home Page";
+}
+    <div class = "Dataview">
+        <button onclick = "Insertlijst()"   id = "Insertbutton"  >Maak lijst</button>
+        <div id = "lijstdiv">
+
+        </div>
+    </div>
+    <div class = "Inputuserinsert">
+        <input id=" Insertbutton" onclick = "taskinput()" value="Maak taak" type = "button">
+        <div id = "Inputuserinserttext">
+
+        </div>
+    </div>
+ <div>
+        
+    @{
+        
+        foreach(var lijst in ViewBag.item)
+        {  <p>Lijst naam @{@lijst.Lijst}</p> <input id = "Update" value="Update list" type = "Button" onclick="updatelijst(@lijst.Lijst)" > <input id = "Delete" value="delete list" type = "Button" onclick="deletelijst(@lijst.Lijst)" >
+            <p>---------------</p>
+
+             <p id ="p1">Taak @{@lijst.Naam}</p>
+             <input type = "text" id = "Inputupdatetnaam">
+             <p id="p2">Beschrijving@{@lijst.Beschrijving}</p>
+             <input type = "text" id = "Inputupdatetbesch">
+             <p id="p3">Duur = @{@lijst.Duur}</p>
+             <input type = "text" id = "Inputupdatetduur">
+             <p id=p4>Status @{@lijst.Status}</p>
+             <input type = "text" id = "Inputupdatetstatus" >
+             <input id="updatebutton" value="Update" type = "button" onclick="updatestart()" >
+             <input id="confirmbutton" value="confirm" type = "button" onclick="confirmupdate(@lijst.Id,Inputupdatetsnaam,Inputupdatetstatus,Inputupdatetduur,Inputupdatetbesch)" >
+             <input id="Deletebutton" value="Delete" type = "button" onclick="startDelete(@lijst.Id)" >  
+             <p>-----------</p>
+
+       }
+     }
+    </div>
