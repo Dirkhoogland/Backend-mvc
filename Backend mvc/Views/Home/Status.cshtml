@@ -1,8 +1,8 @@
 ﻿
 @{
-    ViewData["Title"] = "Home Page";
+    ViewData["Title"] = "Status";
 }
-    <div class = "Dataview">
+ <div class = "Dataview">
         <button onclick = "Insertlijst()"   id = "Insertbutton"  >Maak lijst</button>
         <div id = "lijstdiv">
 
@@ -13,14 +13,13 @@
         <div id = "Inputuserinserttext">
 
         </div>
-    </div>   
+    </div>   @{var lijsten = ViewBag.items; var taken = ViewBag.item;}
  <div id = "itemsdiv">
        
     @{
         foreach (var NaamLijst in ViewBag.items)
         {
             <p>Lijst naam @{@NaamLijst.NaamLijst}</p> <input id = "Update" value="Update list" type = "Button" onclick="updatelijst(@NaamLijst.IdLijst)" > <input id = "Delete" value="delete list" type = "Button" onclick="deletelijst(@NaamLijst.IdLijst)" >
-             <input type = "text" id = "updatetlijst">
             <p>---------------</p>
             foreach (var lijst in ViewBag.item)
             {

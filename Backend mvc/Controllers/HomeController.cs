@@ -100,6 +100,52 @@ namespace Backend_mvc.Controllers
             ViewBag.items = Lijstenfront ;
             return View();
         }
+        public IActionResult SortedBytime()
+        {
+
+                Lijsten = _context.Lijstentable.Where(m => m.IdLijst >= 0).ToList();
+
+                List<Tasks> Taken = new List<Tasks>();
+                List<Lijstentable> Lijstenfront = new List<Lijstentable>();
+                foreach (var item in Lijsten)
+                {
+
+                    Taken.AddRange(_context.Tasks.Where(t => t.Lijst == item.NaamLijst).ToList());
+                    Lijstenfront.AddRange(_context.Lijstentable.Where(t => t.NaamLijst == item.NaamLijst).ToList());
+                }
+
+            List <Tasks> Taken2 = Taken.OrderBy(t => t.Duur).ToList();
+
+            ViewBag.item = Taken2;
+            ViewBag.items = Lijstenfront;
+
+
+
+                return View();
+        }
+        public IActionResult Status()
+        {
+
+            Lijsten = _context.Lijstentable.Where(m => m.IdLijst >= 0).ToList();
+
+            List<Tasks> Taken = new List<Tasks>();
+            List<Lijstentable> Lijstenfront = new List<Lijstentable>();
+            foreach (var item in Lijsten)
+            {
+
+                Taken.AddRange(_context.Tasks.Where(t => t.Lijst == item.NaamLijst).ToList());
+                Lijstenfront.AddRange(_context.Lijstentable.Where(t => t.NaamLijst == item.NaamLijst).ToList());
+            }
+            List<Tasks>Taken3 = Taken.OrderBy(t => t.Status).ToList();
+
+
+            ViewBag.item = Taken3;
+            ViewBag.items = Lijstenfront;
+
+
+
+            return View();
+        }
 
         public IActionResult Privacy()
         {
@@ -189,28 +235,16 @@ namespace Backend_mvc.Controllers
         [HttpPost]
         public IActionResult ListUpdate([FromBody] listupdate lijst)
         {
-            var oldlist = _context.Lijstentable.Where((m => m.IdLijst == lijst.Id)).ToString();
-
-            _context.Lijstentable.Add(new Lijstentable()
+            var list = new Lijstentable
             {
-                NaamLijst = lijst.naam
-            });
-            var tasksinlist = _context.Tasks.Where(m => m.Lijst ==oldlist);
+                IdLijst = lijst.Id,
+                NaamLijst = lijst.naam,
 
+            };
 
-
-            //_context.Lijstentable
-            //    .Where(x => x.IdLijst == lijst.Id)
-            //    .UpdateFromQuery(x => new Lijstentable { NaamLijst = lijst.naam });
-
-
-
-            _context.Database.ExecuteSqlRaw("SET IDENTITY_INSERT dbo.Tasks ON;");
+            var updatedlist = _context.Lijstentable.SingleOrDefault(b => b.IdLijst == lijst.Id);
+            _context.Lijstentable.AttachRange(list) ;
             _context.SaveChanges();
-            _context.Database.ExecuteSqlRaw("SET IDENTITY_INSERT dbo.Tasks OFF;");
-            if (_context.SaveChanges() > 0)
-            {
-            }
             return Index();
         }
     }

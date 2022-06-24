@@ -7,7 +7,13 @@ var Inputupdatetbesch = document.getElementById("Inputupdatetbesch");
 var confirmbutton = document.getElementById("confirmbutton");
 var lijstdiv = document.getElementById("lijstdiv");
 var Inserttask = document.getElementById("Inserttask");
-
+var startbutton = document.getElementById('startbutton');
+var updatetlijst = document.getElementById('updatetlijst');
+function start(Lijsten, items)
+{
+    console.log(Lijsten);
+    console.log(items);
+}
 
 
 function Insertshow() {
@@ -108,10 +114,6 @@ function lijstbutton() {
 
     lijstdiv.innerHTML = ""
 };
-
-
-
-
 
 function confirmupdate(Id, Naam, Status, Duur, Besch,Lijst) {
     var tasklist = JSON.stringify(
