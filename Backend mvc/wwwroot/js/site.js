@@ -8,6 +8,8 @@ var confirmbutton = document.getElementById("confirmbutton");
 var lijstdiv = document.getElementById("lijstdiv");
 var Inserttask = document.getElementById("Inserttask");
 
+
+
 function Insertshow() {
     Inputuserinserttext.style.visibility = "visible"
     lijstdiv.style.visibilisty = 'Visible'
@@ -51,6 +53,7 @@ function taskinput()
     para.appendChild(div);
     element.appendChild(para);
     Inputuserinserttext.style.visibility = "visible"
+    Insertbutton.style.visibility = "hidden"
 }
 
 
@@ -62,25 +65,24 @@ function updatestart() {
     confirmbutton.style.visibility = "Visible"
 }
 function Taskbuttonmaken() {
-    var taaknieuw = document.getElementById("tb1").value;
+    var naam = document.getElementById("tb1").value;
     var lijst = document.getElementById("tb2").value;
     var besch = document.getElementById("tb3").value;
     var status = document.getElementById("tb4").value;
     var duur = document.getElementById("tb5").value
-    var newtaak =
-    {
-        'Naam': taaknieuw,
-        'lijst':lijst,
-        'Besch': besch,
+    var tasklist = JSON.stringify({
+        'Lijst': lijst,
+        'Naam': naam,
         'Status': status,
-        'Duur': duur
-    }
+        'Duur': duur,
+        'Besch': besch
+    });
     $.ajax({
-        type:"post",
-        dataType:"json",
-        traditional: true,
-        url:'/Home/Tasksaddto',
-        data: JSON.stringify(newtaak),
+        type: "post",
+        dataType: "json",
+        url: '/Home/Tasksaddto',
+        dataType: 'json',
+        data:tasklist,
         contentType: "application/json",
         success: function () { console.log(Id); },
         Error: function (a, b, c) { console.log(a); console.log(b); console.log(c); }
@@ -106,28 +108,36 @@ function lijstbutton() {
 
     lijstdiv.innerHTML = ""
 };
-function confirmupdate(Id, Naam, Status, Duur, Besch) {
-    var tasklist =
-    {
-        'Id': Id,
-        'Naam': Naam,
-        'Status': Status,
-        'Duur': Duur,
-        'Besch': Besch
-    }
+
+
+
+
+
+function confirmupdate(Id, Naam, Status, Duur, Besch,Lijst) {
+    var tasklist = JSON.stringify(
+        {
+            'Id': Id,
+            'Naam': Naam,
+            'Status': Status,
+            'Duur': Duur,
+            'Besch': Besch,
+            'Lijst' : lijst
+        });
+    var newtasklist
     $.ajax({
         type: "post",
         dataType: "json",
         traditional: true,
         url: '/Home/Updatetask',
-        data: JSON.stringify(tasklist),
+        data: tasklist,
         contentType: "application/json",
         success: function () { console.log(Id); },
         Error: function (a, b, c) { console.log(a); console.log(b); console.log(c); }
     });
 }
 
-function startDelete(Id) {
+function startDelete(Id)
+{
 
     $.ajax({
         type: "post",
@@ -135,6 +145,22 @@ function startDelete(Id) {
         traditional: true,
         url: '/Home/Deletetask',
         data: JSON.stringify(Id),
+        contentType: "application/json",
+        success: function () { console.log(Id); },
+        Error: function (a, b, c) { console.log(a); console.log(b); console.log(c); }
+    });
+}
+
+
+function deletelijst(id)
+{
+
+    $.ajax({
+        type: "post",
+        dataType: "json",
+        traditional: true,
+        url: '/Home/Deletelist',
+        data: JSON.stringify(id),
         contentType: "application/json",
         success: function () { console.log(Id); },
         Error: function (a, b, c) { console.log(a); console.log(b); console.log(c); }

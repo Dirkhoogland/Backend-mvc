@@ -1,9 +1,10 @@
 using Microsoft.EntityFrameworkCore;
 
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-builder.Services.AddControllersWithViews();
+builder.Services.AddControllersWithViews().AddNewtonsoftJson(); ;
 builder.Services.AddDbContextPool<Backend_mvc.Models.Database.SchoolContext>(options => options.UseSqlServer("Data Source = LAPTOP-6OVEOOKP; Initial Catalog = School; Integrated Security = True;Pooling=True;MultipleActiveResultSets=True"));
 
 
