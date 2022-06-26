@@ -42,22 +42,13 @@ body {
     visibility: hidden;
 }
 
-#Inputupdatetnaam {
+
+#updatetlijst{
     visibility: hidden;
 }
-
-#Inputupdatetbesch {
-    visibility: hidden;
+#updatelijstbutton{
+    visibility:hidden;
 }
-
-#Inputupdatetduur {
-    visibility: hidden;
-}
-
-#Inputupdatetstatus {
-    visibility: hidden;
-}
-
-#confirmbutton {
-    visibility: hidden;
+#confirmbutton{
+    visibility:hidden;
 }

@@ -13,13 +13,14 @@
         <div id = "Inputuserinserttext">
 
         </div>
-    </div>   @{var lijsten = ViewBag.items; var taken = ViewBag.item;}
+    </div>  
  <div id = "itemsdiv">
        
     @{
         foreach (var NaamLijst in ViewBag.items)
         {
-            <p>Lijst naam @{@NaamLijst.NaamLijst}</p> <input id = "Update" value="Update list" type = "Button" onclick="updatelijst(@NaamLijst.IdLijst)" > <input id = "Delete" value="delete list" type = "Button" onclick="deletelijst(@NaamLijst.IdLijst)" >
+            <p>Lijst naam @{@NaamLijst.NaamLijst}</p> <input id = "Update" value="Update list" type = "Button" onclick="updateshow()" > <input id = "Delete" value="delete list" type = "Button" onclick="deletelijst(@NaamLijst.IdLijst)" >
+             <input type = "text" id = "updatetlijst"> <input id="updatelijstbutton" value="Update" type = "button" onclick="updatelijst(@NaamLijst.IdLijst)" >
             <p>---------------</p>
             foreach (var lijst in ViewBag.item)
             {

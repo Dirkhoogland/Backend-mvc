@@ -204,30 +204,29 @@ namespace Backend_mvc.Controllers
         }
 
         // task updaten
-        public IActionResult Tasksupdateto([FromBody] tasklistupdate tasklist2)
+        public IActionResult Updatetask([FromBody] tasklistupdate tasklist2)
         {
-            _context.Tasks.Update(new Tasks()
-            { Id = tasklist2.Id,
-
+            var task = new Tasks
+            {
+                Beschrijving = tasklist2.besch,
                 Naam = tasklist2.naam,
                 Lijst = tasklist2.lijst,
-                Beschrijving = tasklist2.besch,
                 Status = tasklist2.status,
                 Duur = tasklist2.duur
-            });
+            };
 
-            _context.Database.ExecuteSqlRaw("SET IDENTITY_INSERT dbo.Tasks ON;");
+            var updatedlist = _context.Tasks.SingleOrDefault(b => b.Id == tasklist2.Id);
+            updatedlist.Naam = task.Naam;
+            updatedlist.Status = task.Status;
+            updatedlist.Duur = task.Duur;
+            updatedlist.Lijst = task.Lijst;
+
+
             _context.SaveChanges();
-            _context.Database.ExecuteSqlRaw("SET IDENTITY_INSERT dbo.Tasks OFF;");
             if (_context.SaveChanges() > 0)
             {
 
             }
-            tasklist2.naam = "";
-            tasklist2.lijst = "";
-            tasklist2.besch = "";
-            tasklist2.status = "";
-            tasklist2.duur = 0;
             return Index();
         }
 
@@ -243,7 +242,7 @@ namespace Backend_mvc.Controllers
             };
 
             var updatedlist = _context.Lijstentable.SingleOrDefault(b => b.IdLijst == lijst.Id);
-            _context.Lijstentable.AttachRange(list) ;
+            updatedlist.NaamLijst = list.NaamLijst;
             _context.SaveChanges();
             return Index();
         }
