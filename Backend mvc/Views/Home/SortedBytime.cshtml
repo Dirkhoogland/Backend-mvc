@@ -24,7 +24,7 @@
             <p>---------------</p>
             foreach (var lijst in ViewBag.item)
             {
-                if (NaamLijst.NaamLijst == lijst.Lijst) {
+                if (NaamLijst.IdLijst == lijst.Lijst) {
                     <p id ="p1">Taak @{@lijst.Naam}</p>
                     <input type = "text" id = "Inputupdatetnaam">
                     <p id="p2">Beschrijving@{@lijst.Beschrijving}</p>

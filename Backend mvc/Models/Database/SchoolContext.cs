@@ -8,6 +8,7 @@ namespace Backend_mvc.Models.Database
     public partial class SchoolContext : DbContext
     {
 
+
         public SchoolContext(DbContextOptions<SchoolContext> options)
             : base(options)
         {
@@ -36,14 +37,8 @@ namespace Backend_mvc.Models.Database
 
             modelBuilder.Entity<Tasks>(entity =>
             {
-                entity.HasIndex(e => e.Lijst, "IX_Tasks_Lijst");
-
                 entity.Property(e => e.Beschrijving)
                     .HasMaxLength(250)
-                    .IsUnicode(false);
-
-                entity.Property(e => e.Lijst)
-                    .HasMaxLength(50)
                     .IsUnicode(false);
 
                 entity.Property(e => e.Naam)
@@ -56,8 +51,8 @@ namespace Backend_mvc.Models.Database
 
                 entity.HasOne(d => d.LijstNavigation)
                     .WithMany(p => p.Tasks)
-                    .HasPrincipalKey(p => p.NaamLijst)
                     .HasForeignKey(d => d.Lijst)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_Tasks_Lijstentable");
             });
 

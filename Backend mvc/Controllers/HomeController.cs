@@ -28,25 +28,31 @@ namespace Backend_mvc.Controllers
         public class tasklist
         {
             public string? naam { get; set; }
-            public string? lijst { get; set; }
+            public int lijst { get; set; }
             public string? besch { get; set; }
             public string? status { get; set; }
             public int duur { get; set; }
         }
         public class tasklistupdate
-        {   
-            public string? naam { get; set; }
-            public string? lijst { get; set; }
-            public string? besch { get; set; }
-            public string? status { get; set; }
-            public int duur { get; set; }
-
+        {
             public int Id { get; set; }
+            public string? Naam { get; set; }
+
+            public string? Status { get; set; }
+            public int Duur { get; set; }
+
+            public string? Besch { get; set; }
+            public int Lijst { get; set; }
+            
+            
+            
+
+            
         }
         public class listupdate
         {
             public int Id { get; set; }
-            public string? naam { get; set; }
+            public string Lijst { get; set; }
         }
 
 
@@ -93,13 +99,14 @@ namespace Backend_mvc.Controllers
             foreach (var item in Lijsten)
             {
 
-                Taken.AddRange(_context.Tasks.Where(t => t.Lijst == item.NaamLijst).ToList());
+                Taken.AddRange(_context.Tasks.Where(t => t.Lijst == item.IdLijst).ToList());
                 Lijstenfront.AddRange(_context.Lijstentable.Where(t => t.NaamLijst == item.NaamLijst).ToList());
             }
             ViewBag.item = Taken;
             ViewBag.items = Lijstenfront ;
             return View();
         }
+        // ordered op tijd
         public IActionResult SortedBytime()
         {
 
@@ -110,7 +117,7 @@ namespace Backend_mvc.Controllers
                 foreach (var item in Lijsten)
                 {
 
-                    Taken.AddRange(_context.Tasks.Where(t => t.Lijst == item.NaamLijst).ToList());
+                    Taken.AddRange(_context.Tasks.Where(t => t.Lijst == item.IdLijst).ToList());
                     Lijstenfront.AddRange(_context.Lijstentable.Where(t => t.NaamLijst == item.NaamLijst).ToList());
                 }
 
@@ -123,6 +130,7 @@ namespace Backend_mvc.Controllers
 
                 return View();
         }
+        // ordered op status klaar/bezig
         public IActionResult Status()
         {
 
@@ -133,7 +141,7 @@ namespace Backend_mvc.Controllers
             foreach (var item in Lijsten)
             {
 
-                Taken.AddRange(_context.Tasks.Where(t => t.Lijst == item.NaamLijst).ToList());
+                Taken.AddRange(_context.Tasks.Where(t => t.Lijst == item.IdLijst).ToList());
                 Lijstenfront.AddRange(_context.Lijstentable.Where(t => t.NaamLijst == item.NaamLijst).ToList());
             }
             List<Tasks>Taken3 = Taken.OrderBy(t => t.Status).ToList();
@@ -196,26 +204,27 @@ namespace Backend_mvc.Controllers
 
             }
             tasklist1.naam = "";
-            tasklist1.lijst = "";
+            tasklist1.lijst = 0;
             tasklist1.besch = "";
             tasklist1.status = "";
             tasklist1.duur = 0;
             return Index();
         }
 
-        // task updaten
+
+        [HttpPost]
         public IActionResult Updatetask([FromBody] tasklistupdate tasklist2)
         {
             var task = new Tasks
             {
-                Beschrijving = tasklist2.besch,
-                Naam = tasklist2.naam,
-                Lijst = tasklist2.lijst,
-                Status = tasklist2.status,
-                Duur = tasklist2.duur
+                Beschrijving = tasklist2.Besch,
+                Naam = tasklist2.Naam,
+                Lijst = tasklist2.Lijst,
+                Status = tasklist2.Status,
+                Duur = tasklist2.Duur
             };
 
-            var updatedlist = _context.Tasks.SingleOrDefault(b => b.Id == tasklist2.Id);
+            var updatedlist = _context.Tasks.SingleOrDefault(b => b.Id ==task.Id);
             updatedlist.Naam = task.Naam;
             updatedlist.Status = task.Status;
             updatedlist.Duur = task.Duur;
@@ -232,16 +241,16 @@ namespace Backend_mvc.Controllers
 
         // lijst updaten
         [HttpPost]
-        public IActionResult ListUpdate([FromBody] listupdate lijst)
+        public IActionResult ListUpdate([FromBody] listupdate lijsttesten)
         {
             var list = new Lijstentable
             {
-                IdLijst = lijst.Id,
-                NaamLijst = lijst.naam,
+                IdLijst = lijsttesten.Id,
+                NaamLijst = lijsttesten.Lijst
 
             };
 
-            var updatedlist = _context.Lijstentable.SingleOrDefault(b => b.IdLijst == lijst.Id);
+            var updatedlist = _context.Lijstentable.SingleOrDefault(b => b.IdLijst == lijsttesten.Id);
             updatedlist.NaamLijst = list.NaamLijst;
             _context.SaveChanges();
             return Index();

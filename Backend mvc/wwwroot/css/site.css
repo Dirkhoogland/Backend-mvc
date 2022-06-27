@@ -41,14 +41,3 @@ body {
 #lijstdiv {
     visibility: hidden;
 }
-
-
-#updatetlijst{
-    visibility: hidden;
-}
-#updatelijstbutton{
-    visibility:hidden;
-}
-#confirmbutton{
-    visibility:hidden;
-}

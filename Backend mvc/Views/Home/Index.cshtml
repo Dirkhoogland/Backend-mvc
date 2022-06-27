@@ -19,12 +19,12 @@
     @{
         foreach (var NaamLijst in ViewBag.items)
         {
-            <p>Lijst naam @{@NaamLijst.NaamLijst}</p> <input id = "Update" value="Update list" type = "Button" onclick="updateshowlijst()" > <input id = "Delete" value="delete list" type = "Button" onclick="deletelijst(@NaamLijst.IdLijst)" >
-             <input type = "text" id = "updatetlijst"> <input id="updatelijstbutton" value="Update" type = "button" onclick="updatelijst(@NaamLijst.IdLijst)" >
+            <p>Lijst naam @{@NaamLijst.NaamLijst}</p> <input id = "Update" value="Update list" type = "Button" onclick="updateshowlijst(@NaamLijst.IdLijst)" > <input id = "Delete" value="delete list" type = "Button" onclick="deletelijst(@NaamLijst.IdLijst)" >
+            <div id ="@NaamLijst.IdLijst"></div>
             <p>---------------</p>
             foreach (var lijst in ViewBag.item)
             {
-                if (NaamLijst.NaamLijst == lijst.Lijst) {
+                if (NaamLijst.IdLijst == lijst.Lijst) {
 
                     <p id ="p1">Taak @{@lijst.Naam}</p>
                     <p id="p2">Beschrijving @{@lijst.Beschrijving}</p>
@@ -34,10 +34,9 @@
                     <input id="Deletebutton" value="Delete" type = "button" onclick="startDelete(@lijst.Id)" >  
                     <p>-----------</p>
                     <div id="@lijst.Id">
+                    
                     </div>
                     <br>
-                    <input id='confirmbutton' value='confirm' type = 'button' onclick='confirmupdate(@lijst.Id)'>
-
                 }
             }
         }

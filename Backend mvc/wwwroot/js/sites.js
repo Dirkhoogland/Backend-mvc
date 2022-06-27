@@ -9,8 +9,7 @@ var lijstdiv = document.getElementById("lijstdiv");
 var Inserttask = document.getElementById("Inserttask");
 var startbutton = document.getElementById('startbutton');
 var updatetlijst = document.getElementById('updatetlijst');
-var updatelijstbutton = document.getElementById('updatelijstbutton')
-var Inputupdatetlijst = document.getElementById('Inputupdatetlijst');
+var taskid = 0;
 function Insertshow() {
     Inputuserinserttext.style.visibility = "visible"
     lijstdiv.style.visibilisty = 'Visible'
@@ -74,9 +73,7 @@ function Taskbuttonmaken() {
         type: "post",
         dataType: "json",
         url: '/Home/Tasksaddto',
-        dataType: 'json',
         data:tasklist,
-        contentType: "application/json",
         success: function () { console.log(Id); },
         Error: function (a, b, c) { console.log(a); console.log(b); console.log(c); }
     });
@@ -94,7 +91,7 @@ function lijstbutton() {
         traditional: true,
         url: '/Home/Listadd',
         data: JSON.stringify(lijstnieuw),
-        contentType: "application/json",
+        contentType: 'application/json; charset=UTF-8',
         success: function () { console.log(Id); },
         Error: function (a, b, c) { console.log(a); console.log(b); console.log(c); }
     });
@@ -105,9 +102,9 @@ function lijstbutton() {
 function confirmupdate(Id) {
     let div = document.getElementById(Id)
    
-    var tasklist = JSON.stringify(
+    var takenlijst = JSON.stringify(
         {
-            'Id': Id,
+            'Id': taskid,
             'Naam': document.getElementById("Inputupdatetnaam").value,
             'Status': document.getElementById("Inputupdatetstatus").value,
             'Duur': document.getElementById("Inputupdatetduur").value,
@@ -119,12 +116,11 @@ function confirmupdate(Id) {
         dataType: "json",
         traditional: true,
         url: '/Home/Updatetask',
-        data: tasklist,
+        data: takenlijst,
         contentType: "application/json",
         success: function () { console.log(Id); },
         Error: function (a, b, c) { console.log(a); console.log(b); console.log(c); }
     });
-    confirmbutton.style.visibility = 'hidden';
     div.innerHTML = "";
 }
 
@@ -161,6 +157,7 @@ function deletelijst(id)
 
 function updateshow(id)
 {
+    taskid = id;
     const element = document.getElementById(id);
     const para = document.createElement("p");
     const br = document.createElement("br");
@@ -190,6 +187,8 @@ function updateshow(id)
     input5.type = "text";
     input5.id = 'Inputupdatetlijst';
 
+
+    para.innerHTML = '<input id= "confirmbutton" value="confirm" type="button" onclick="confirmupdate()">'
     para.appendChild(node1);
     para.appendChild(input1);
     para.appendChild(br)
@@ -210,19 +209,25 @@ function updateshow(id)
     element.appendChild(para);
     confirmbutton.style.visibility = 'visible';
 }
-function updateshowlijst(id)
-{
+var test2 = 0;
 
-    updatetlijst.style.visibility = "visible";
-    updatelijstbutton.style.visibility = "visible";
+function updateshowlijst(test)
+{
+    let div = document.getElementById(test)
+    test2 = test
+
+    div.innerHTML = '<input type = "text" id = "updatetlijst"> <input id = test value="Update" type = "button" onclick="updatelijst()" >'
 }
 
-function updatelijst(id)
+function updatelijst()
 {
+
+
+    var naam = document.getElementById("updatetlijst").value
     var list = JSON.stringify(
         {
-            'Id': id,
-            'Lijst': document.getElementById("updatetlijst").value
+            'Id': test2,
+            'Lijst': naam
         });
 
 
