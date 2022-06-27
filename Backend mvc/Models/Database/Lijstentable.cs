@@ -3,9 +3,9 @@ using System.Collections.Generic;
 
 namespace Backend_mvc.Models.Database
 {
-    public partial class Lijstentable
+    public partial class lijstentable
     {
-        public Lijstentable()
+        public lijstentable()
         {
             Tasks = new HashSet<Tasks>();
         }

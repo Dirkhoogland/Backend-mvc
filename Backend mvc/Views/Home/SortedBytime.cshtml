@@ -19,24 +19,24 @@
     @{
         foreach (var NaamLijst in ViewBag.items)
         {
-            <p>Lijst naam @{@NaamLijst.NaamLijst}</p> <input id = "Update" value="Update list" type = "Button" onclick="updateshow()" > <input id = "Delete" value="delete list" type = "Button" onclick="deletelijst(@NaamLijst.IdLijst)" >
-             <input type = "text" id = "updatetlijst"> <input id="updatelijstbutton" value="Update" type = "button" onclick="updatelijst(@NaamLijst.IdLijst)" >
+            <p>Lijst naam @{@NaamLijst.NaamLijst}</p> <input id = "Update" value="Update list" type = "Button" onclick="updateshowlijst(@NaamLijst.IdLijst)" > <input id = "Delete" value="delete list" type = "Button" onclick="deletelijst(@NaamLijst.IdLijst)" >
+            <div id ="@NaamLijst.IdLijst"></div>
             <p>---------------</p>
             foreach (var lijst in ViewBag.item)
             {
                 if (NaamLijst.IdLijst == lijst.Lijst) {
+
                     <p id ="p1">Taak @{@lijst.Naam}</p>
-                    <input type = "text" id = "Inputupdatetnaam">
-                    <p id="p2">Beschrijving@{@lijst.Beschrijving}</p>
-                    <input type = "text" id = "Inputupdatetbesch">
+                    <p id="p2">Beschrijving @{@lijst.Beschrijving}</p>
                     <p id="p3">Duur = @{@lijst.Duur}</p>
-                    <input type = "text" id = "Inputupdatetduur">
                     <p id=p4>Status @{@lijst.Status}</p>
-                    <input type = "text" id = "Inputupdatetstatus" >
-                    <input id="updatebutton" value="Update" type = "button" onclick="updatestart()" >
-                    <input id="confirmbutton" value="confirm" type = "button" onclick="confirmupdate(@lijst.Id,Inputupdatetsnaam,Inputupdatetstatus,Inputupdatetduur,Inputupdatetbesch)" >
+                    <input id="updatebutton" value="Update" type = "button" onclick="updateshow(@lijst.Id)" >
                     <input id="Deletebutton" value="Delete" type = "button" onclick="startDelete(@lijst.Id)" >  
                     <p>-----------</p>
+                    <div id="@lijst.Id">
+                    
+                    </div>
+                    <br>
                 }
             }
         }

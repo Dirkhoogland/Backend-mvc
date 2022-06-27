@@ -14,13 +14,13 @@ namespace Backend_mvc.Models.Database
         {
         }
 
-        public virtual DbSet<Lijstentable> Lijstentable { get; set; } = null!;
+        public virtual DbSet<lijstentable> Lijstentable { get; set; } = null!;
         public virtual DbSet<Tasks> Tasks { get; set; } = null!;
 
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<Lijstentable>(entity =>
+            modelBuilder.Entity<lijstentable>(entity =>
             {
                 entity.HasKey(e => e.IdLijst);
 

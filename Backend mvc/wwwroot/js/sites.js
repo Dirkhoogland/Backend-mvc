@@ -72,12 +72,14 @@ function Taskbuttonmaken() {
     $.ajax({
         type: "post",
         dataType: "json",
+        traditional: true,
         url: '/Home/Tasksaddto',
-        data:tasklist,
+        data: tasklist,
+        contentType: "application/json",
         success: function () { console.log(Id); },
         Error: function (a, b, c) { console.log(a); console.log(b); console.log(c); }
     });
-    Inputuserinserttext.innerHTML = ""
+    
 }
 
 function lijstbutton() {
@@ -100,8 +102,13 @@ function lijstbutton() {
 };
 
 function confirmupdate(Id) {
+
     let div = document.getElementById(Id)
-   
+    var naam = document.getElementById("Inputupdatetnaam").value;
+    var status = document.getElementById("Inputupdatetstatus").value;
+    var duur = document.getElementById("Inputupdatetduur").value;
+    var besch = document.getElementById("Inputupdatetbesch").value;
+    var lijst = document.getElementById("Inputupdatetlijst").value;
     var takenlijst = JSON.stringify(
         {
             'Id': taskid,
@@ -121,7 +128,7 @@ function confirmupdate(Id) {
         success: function () { console.log(Id); },
         Error: function (a, b, c) { console.log(a); console.log(b); console.log(c); }
     });
-    div.innerHTML = "";
+    
 }
 
 function startDelete(Id)

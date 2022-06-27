@@ -12,6 +12,6 @@ namespace Backend_mvc.Models.Database
         public int? Duur { get; set; }
         public string? Status { get; set; }
 
-        public virtual Lijstentable LijstNavigation { get; set; } = null!;
+        public virtual lijstentable LijstNavigation { get; set; } = null!;
     }
 }

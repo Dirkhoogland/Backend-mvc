@@ -22,7 +22,7 @@ namespace Backend_mvc.Controllers
             _logger = logger;
             _context = context;
         }
-        public List<Lijstentable> Lijsten { get; set; }
+        public List<lijstentable> Lijsten { get; set; }
         public string Lijst { get; private set; }
 
         public class tasklist
@@ -42,7 +42,7 @@ namespace Backend_mvc.Controllers
             public int Duur { get; set; }
 
             public string? Besch { get; set; }
-            public int Lijst { get; set; }
+            public string Lijst { get; set; }
             
             
             
@@ -78,7 +78,7 @@ namespace Backend_mvc.Controllers
         public IActionResult Deletelist([FromBody] int id)
         {
 
-            List<Lijstentable> removefunct = _context.Lijstentable.Where(a => a.IdLijst == id).ToList();
+            List<lijstentable> removefunct = _context.Lijstentable.Where(a => a.IdLijst == id).ToList();
             _context.Lijstentable.Remove(removefunct[0]);
 
             _context.SaveChanges();
@@ -95,7 +95,7 @@ namespace Backend_mvc.Controllers
             Lijsten = _context.Lijstentable.Where(m => m.IdLijst >= 0).ToList();
             
             List<Tasks> Taken = new List<Tasks>();
-            List<Lijstentable> Lijstenfront = new List<Lijstentable>();
+            List<lijstentable> Lijstenfront = new List<lijstentable>();
             foreach (var item in Lijsten)
             {
 
@@ -113,7 +113,7 @@ namespace Backend_mvc.Controllers
                 Lijsten = _context.Lijstentable.Where(m => m.IdLijst >= 0).ToList();
 
                 List<Tasks> Taken = new List<Tasks>();
-                List<Lijstentable> Lijstenfront = new List<Lijstentable>();
+                List<lijstentable> Lijstenfront = new List<lijstentable>();
                 foreach (var item in Lijsten)
                 {
 
@@ -137,7 +137,7 @@ namespace Backend_mvc.Controllers
             Lijsten = _context.Lijstentable.Where(m => m.IdLijst >= 0).ToList();
 
             List<Tasks> Taken = new List<Tasks>();
-            List<Lijstentable> Lijstenfront = new List<Lijstentable>();
+            List<lijstentable> Lijstenfront = new List<lijstentable>();
             foreach (var item in Lijsten)
             {
 
@@ -170,7 +170,7 @@ namespace Backend_mvc.Controllers
         [HttpPost]
         public IActionResult Listadd([FromBody] string lijst)
         {
-                 _context.Lijstentable.Add(new Lijstentable()
+                 _context.Lijstentable.Add(new lijstentable()
                 {
                     NaamLijst = lijst
                 });
@@ -184,16 +184,18 @@ namespace Backend_mvc.Controllers
         }
         // task toe te voegen
         [HttpPost]
-        public IActionResult Tasksaddto([FromBody]tasklist tasklist1)
+        public IActionResult Tasksaddto([FromBody] tasklistupdate tasklist)
         {
+            List<lijstentable> listid = new List<lijstentable>();
+            listid = _context.Lijstentable.Where(m => m.NaamLijst == tasklist.Lijst).ToList();
 
             _context.Tasks.Add(new Tasks()
             {
-                Naam = tasklist1.naam,
-                Lijst =tasklist1.lijst,
-                Beschrijving = tasklist1.besch,
-                Status = tasklist1.status,
-                Duur = tasklist1.duur
+                Naam = tasklist.Naam,
+                Lijst = listid[0].IdLijst,
+                Beschrijving = tasklist.Besch,
+                Status = tasklist.Status,
+                Duur = tasklist.Duur
             });
 
             _context.Database.ExecuteSqlRaw("SET IDENTITY_INSERT dbo.Tasks ON;");
@@ -203,32 +205,31 @@ namespace Backend_mvc.Controllers
             {
 
             }
-            tasklist1.naam = "";
-            tasklist1.lijst = 0;
-            tasklist1.besch = "";
-            tasklist1.status = "";
-            tasklist1.duur = 0;
+
             return Index();
         }
 
 
         [HttpPost]
-        public IActionResult Updatetask([FromBody] tasklistupdate tasklist2)
+        public IActionResult Updatetask([FromBody] tasklistupdate tasklist)
         {
-            var task = new Tasks
+            var task = new tasklistupdate
             {
-                Beschrijving = tasklist2.Besch,
-                Naam = tasklist2.Naam,
-                Lijst = tasklist2.Lijst,
-                Status = tasklist2.Status,
-                Duur = tasklist2.Duur
+                Besch = tasklist.Besch,
+                Naam = tasklist.Naam,
+                Lijst = tasklist.Lijst,
+                Status = tasklist.Status,
+                Duur = tasklist.Duur
             };
+            List<lijstentable> listid = new List<lijstentable>();
+            listid = _context.Lijstentable.Where(m => m.NaamLijst == tasklist.Lijst).ToList();
 
-            var updatedlist = _context.Tasks.SingleOrDefault(b => b.Id ==task.Id);
+            var updatedlist = _context.Tasks.SingleOrDefault(b => b.Id == tasklist.Id);
+            updatedlist.Beschrijving = task.Besch;
             updatedlist.Naam = task.Naam;
             updatedlist.Status = task.Status;
             updatedlist.Duur = task.Duur;
-            updatedlist.Lijst = task.Lijst;
+            updatedlist.Lijst = listid[0].IdLijst;
 
 
             _context.SaveChanges();
@@ -243,7 +244,7 @@ namespace Backend_mvc.Controllers
         [HttpPost]
         public IActionResult ListUpdate([FromBody] listupdate lijsttesten)
         {
-            var list = new Lijstentable
+            var list = new lijstentable
             {
                 IdLijst = lijsttesten.Id,
                 NaamLijst = lijsttesten.Lijst
