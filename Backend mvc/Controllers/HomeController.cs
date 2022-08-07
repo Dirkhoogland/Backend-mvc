@@ -1,6 +1,7 @@
 ﻿using Backend_mvc.Models;
 using Backend_mvc.Models.Database;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Data.Entity;
@@ -237,6 +238,7 @@ namespace Backend_mvc.Controllers
             {
 
             }
+            
             return Index();
         }
 

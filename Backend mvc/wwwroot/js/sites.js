@@ -194,8 +194,8 @@ function updateshow(id)
     input5.type = "text";
     input5.id = 'Inputupdatetlijst';
 
+        para.innerHTML = '<input id= "confirmbutton" value="confirm" type="button" onclick="confirmupdate()" asp-action="Index">'
 
-    para.innerHTML = '<input id= "confirmbutton" value="confirm" type="button" onclick="confirmupdate()">'
     para.appendChild(node1);
     para.appendChild(input1);
     para.appendChild(br)
